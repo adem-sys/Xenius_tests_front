@@ -22,12 +22,12 @@
                   <p class="mb-0">Enter your email and password to sign in</p>
                 </div>
                 <div class="card-body">
-                  <form role="form">
+                  <form role="form" @submit.prevent="loginUser">
                     <div class="mb-3">
-                      <argon-input type="email" placeholder="Email" name="email" size="lg" />
+                      <input v-model="email" type="email" class="form-control" placeholder="Email" aria-label="Email" />
                     </div>
                     <div class="mb-3">
-                      <argon-input type="password" placeholder="Password" name="password" size="lg" />
+                      <input v-model="password" type="password" class="form-control" placeholder="Password" aria-label="Password" />
                     </div>
                     <argon-switch id="rememberMe">Remember me</argon-switch>
 
@@ -45,10 +45,12 @@
                 <div class="px-1 pt-0 text-center card-footer px-lg-2">
                   <p class="mx-auto mb-4 text-sm">
                     Don't have an account?
+                    <router-link :to="{ path: '/signup' }">
                     <a
                       href="javascript:;"
                       class="text-success text-gradient font-weight-bold"
                     >Sign up</a>
+                    </router-link>
                   </p>
                 </div>
               </div>
@@ -79,18 +81,24 @@
 
 <script>
 import Navbar from "@/examples/PageLayout/Navbar.vue";
-import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonSwitch from "@/components/ArgonSwitch.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import axios from 'axios';
+
 const body = document.getElementsByTagName("body")[0];
 
 export default {
   name: "signin",
   components: {
     Navbar,
-    ArgonInput,
     ArgonSwitch,
     ArgonButton,
+  },
+  data() {
+    return {
+        email: '',
+        password: '',
+    };
   },
   created() {
     this.$store.state.hideConfigButton = true;
@@ -106,5 +114,24 @@ export default {
     this.$store.state.showFooter = true;
     body.classList.add("bg-gray-100");
   },
+  methods: {
+    loginUser() {
+        const userData = {
+            email: this.email,
+            password: this.password,
+        };
+
+        axios.post('http://127.0.0.1:8000/api/login', userData)
+            .then(response => {
+                console.log(response.data);
+                this.$router.push('/dashboard-default');
+            })
+            .catch(error => {
+              alert("Email or password is incorrect.");
+                console.error(error.response.data);
+            
+            });
+    },
+},
 };
 </script>

@@ -20,13 +20,13 @@ const routes = [
     component: Dashboard,
   },
   {
-    path: "/tables",
-    name: "Tables",
+    path: "/CV",
+    name: "Créé Cv",
     component: Tables,
   },
   {
-    path: "/billing",
-    name: "Billing",
+    path: "/Offres",
+    name: "Offres",
     component: Billing,
   },
   {

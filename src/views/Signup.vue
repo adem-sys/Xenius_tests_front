@@ -96,10 +96,19 @@
               </div>
             </div>
             <div class="card-body">
-              <form role="form">
-                <argon-input type="text" placeholder="Name" aria-label="Name" />
-                <argon-input type="email" placeholder="Email" aria-label="Email" />
-                <argon-input type="password" placeholder="Password" aria-label="Password" />
+              <form role="form" @submit.prevent="registerUser">
+                <div class="form-group">
+                  <input v-model="name" type="text" class="form-control" placeholder="Name" aria-label="Name" />
+                </div>
+                <div class="form-group">
+                  <input v-model="email" type="email" class="form-control" placeholder="Email" aria-label="Email" />
+                </div>
+                <div class="form-group">
+                  <input v-model="role" type="role" class="form-control" placeholder="Role" aria-label="Role" />
+                </div>
+                <div class="form-group">
+                  <input v-model="password" type="password" class="form-control" placeholder="Password" aria-label="Password" />
+                </div>
                 <argon-checkbox checked>
                   <label class="form-check-label" for="flexCheckDefault">
                     I agree the
@@ -114,10 +123,12 @@
                 </div>
                 <p class="text-sm mt-3 mb-0">
                   Already have an account?
+                  <router-link :to="{ path: '/dashboard-default' }">
                   <a
                     href="javascript:;"
                     class="text-dark font-weight-bolder"
                   >Sign in</a>
+                  </router-link>
                 </p>
               </form>
             </div>
@@ -132,33 +143,66 @@
 <script>
 import Navbar from "@/examples/PageLayout/Navbar.vue";
 import AppFooter from "@/examples/PageLayout/Footer.vue";
-import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonCheckbox from "@/components/ArgonCheckbox.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 const body = document.getElementsByTagName("body")[0];
-
+import axios from 'axios';
 export default {
   name: "signin",
   components: {
     Navbar,
     AppFooter,
-    ArgonInput,
     ArgonCheckbox,
     ArgonButton,
   },
-  created() {
+  data() {
+      return {
+         name: '',
+         email: '',
+         role: '',
+         password: '',
+      };
+   },
+   methods: {
+   registerUser() {
+    console.log("User Data:", this.name, this.email,this.role, this.password);
+
+      const userData = {
+         name: this.name,
+         email: this.email,
+         role: this.role,
+         password: this.password,
+      };
+      console.log("Sending Data:", userData);
+      axios.post('http://127.0.0.1:8000/api/register', userData)
+         .then((response) => {
+           const authToken = response.data.accessToken;
+              localStorage.setItem('authToken', authToken);
+              axios.interceptors.request.use((config) => {
+          config.headers['Authorization'] = `Bearer ${authToken}`;
+          return config; 
+        });          console.log(response.data.accessToken);
+          this.$router.push('/dashboard-default');
+         })
+         .catch(error => {
+          console.log(error);
+            console.error(error.response.accessToken);
+         });
+   },
+},
+created() {
     this.$store.state.hideConfigButton = true;
     this.$store.state.showNavbar = false;
     this.$store.state.showSidenav = false;
     this.$store.state.showFooter = false;
     body.classList.remove("bg-gray-100");
-  },
-  beforeUnmount() {
+},
+beforeUnmount() {
     this.$store.state.hideConfigButton = false;
     this.$store.state.showNavbar = true;
     this.$store.state.showSidenav = true;
     this.$store.state.showFooter = true;
     body.classList.add("bg-gray-100");
-  },
+},
 };
 </script>

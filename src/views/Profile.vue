@@ -17,7 +17,7 @@
             <div class="col-auto">
               <div class="avatar avatar-xl position-relative">
                 <img
-                  src="../assets/img/team-1.jpg"
+                  src="../assets/img/img.jpg"
                   alt="profile_image"
                   class="shadow-sm w-100 border-radius-lg"
                 />
@@ -25,8 +25,7 @@
             </div>
             <div class="col-auto my-auto">
               <div class="h-100">
-                <h5 class="mb-1">Sayo Kravits</h5>
-                <p class="mb-0 font-weight-bold text-sm">Public Relations</p>
+                <h5 class="mb-1">Adem Benabderrahim</h5>
               </div>
             </div>
             <div
@@ -197,7 +196,7 @@
         </div>
       </div>
     </div>
-    <div class="py-4 container-fluid">
+   
       <div class="row">
         <div class="col-md-8">
           <div class="card">
@@ -216,29 +215,29 @@
                   <label for="example-text-input" class="form-control-label"
                     >Username</label
                   >
-                  <argon-input type="text" value="lucky.jesse" />
+                  <argon-input type="text" value="Adem Benabderrahim" />
                 </div>
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
                     >Email address</label
                   >
-                  <argon-input type="email" value="jesse@example.com" />
+                  <argon-input type="email" value="adembenabderrahim@gmail.com" />
                 </div>
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
                     >First name</label
                   >
-                  <input class="form-control" type="text" value="Jesse" />
+                  <input class="form-control" type="text" value="Adem" />
                 </div>
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
                     >Last name</label
                   >
-                  <argon-input type="text" value="Lucky" />
+                  <argon-input type="text" value="Benabderrahim" />
                 </div>
               </div>
               <hr class="horizontal dark" />
-              <p class="text-uppercase text-sm">Contact Information</p>
+              <p class="text-uppercase text-sm">Experience</p>
               <div class="row">
                 <div class="col-md-12">
                   <label for="example-text-input" class="form-control-label"
@@ -284,18 +283,14 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <profile-card />
-        </div>
       </div>
-    </div>
+  
   </main>
 </template>
 
 <script>
 import setNavPills from "@/assets/js/nav-pills.js";
 import setTooltip from "@/assets/js/tooltip.js";
-import ProfileCard from "./components/ProfileCard.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 
@@ -308,7 +303,7 @@ export default {
       showMenu: false
     };
   },
-  components: { ProfileCard, ArgonInput, ArgonButton },
+  components: {  ArgonInput, ArgonButton },
 
   mounted() {
     this.$store.state.isAbsolute = true;
